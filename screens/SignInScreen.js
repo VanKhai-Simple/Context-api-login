@@ -1,23 +1,24 @@
 import React, { useContext, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { AppContext } from "../context/AppContext";
 
 export default function SignInScreen({ navigation }) {
+  // Lấy hàm login từ Context (thay vì setIsLoggedIn)
+  const { login } = useContext(AppContext);
 
-  const { setIsLoggedIn } = useContext(AppContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const [email,setEmail] = useState("");
-  const [password,setPassword] = useState("");
-
-  const handleLogin = () => {
-    if(email && password){
-      setIsLoggedIn(true);
+  const handleLogin = async () => {
+    if (email && password) {
+      await login(); 
+    } else {
+      Alert.alert("Thông báo", "Vui lòng nhập đầy đủ Email và Password");
     }
   };
 
   return (
     <View style={styles.container}>
-
       <Text style={styles.title}>Sign In</Text>
 
       {/* Email */}
@@ -27,6 +28,8 @@ export default function SignInScreen({ navigation }) {
         placeholder="Enter your email here!"
         value={email}
         onChangeText={setEmail}
+        keyboardType="email-address"
+        autoCapitalize="none"
       />
 
       {/* Password */}
@@ -55,7 +58,6 @@ export default function SignInScreen({ navigation }) {
 
       {/* Social login */}
       <View style={styles.socialRow}>
-
         <TouchableOpacity style={styles.googleBtn}>
           <Text style={styles.googleText}>Google</Text>
         </TouchableOpacity>
@@ -63,7 +65,6 @@ export default function SignInScreen({ navigation }) {
         <TouchableOpacity style={styles.fbBtn}>
           <Text style={styles.fbText}>Facebook</Text>
         </TouchableOpacity>
-
       </View>
 
       <View style={styles.signupRow}>
@@ -72,10 +73,11 @@ export default function SignInScreen({ navigation }) {
           <Text style={styles.signup}>Sign Up</Text>
         </TouchableOpacity>
       </View>
-
     </View>
   );
 }
+
+// ... styles giữ nguyên như cũ
 
 const styles = StyleSheet.create({
 

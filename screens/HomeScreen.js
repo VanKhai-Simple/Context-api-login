@@ -14,7 +14,7 @@ export default function HomeScreen() {
         <TextInput
           placeholder="Search for meals or area"
           style={styles.input}
-        />
+        />  
       </View>
 
       {/* Categories */}
